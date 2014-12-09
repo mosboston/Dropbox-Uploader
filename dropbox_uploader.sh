@@ -806,10 +806,17 @@ function db_account_info
 
         used=$(sed -n 's/.*"normal": \([0-9]*\).*/\1/p' "$RESPONSE_FILE")
         let used_mb=$used/1024/1024
-        echo -e "Used:\t$used_mb Mb"
+        echo -e "Normal:\t$used_mb Mb"
+        
+	shared=$(sed -n 's/.*"shared": \([0-9]*\).*/\1/p' "$RESPONSE_FILE")
+        let shared_mb=$shared/1024/1024
+        echo -e "Shared:\t$shared_mb Mb"
 
-        let free_mb=($quota-$used)/1024/1024
-        echo -e "Free:\t$free_mb Mb"
+        let normal_plus_shared_mb="($used+$shared)/1024/1024"
+        echo -e "Normal + Shared:\t$normal_plus_shared_mb Mb"
+
+        let free_mb="($quota-($used+$shared))/1024/1024/1024"
+        echo -e "Free:\t$free_mb Gb"
 
         echo ""
 

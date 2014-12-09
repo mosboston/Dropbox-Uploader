@@ -32,7 +32,7 @@ CHUNK_SIZE=4
 #CURL_BIN="/usr/bin/curl"
 
 #Default values
-TMP_DIR="/tmp"
+TMP_DIR="/cygdrive/c/Users/crg/Desktop/Dropbox-Uploader/tmp"
 DEBUG=0
 QUIET=0
 SHOW_PROGRESSBAR=0

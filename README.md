@@ -108,6 +108,9 @@ Load the configuration file from a specific file
 * **-s**  
 Skip already existing files when download/upload. Default: Overwrite
 
+* **-x**  
+Delete local files after upload (careful!)
+
 * **-d**  
 Enable DEBUG mode
 

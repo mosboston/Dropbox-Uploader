@@ -19,9 +19,6 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #
 
-DELETE_SCRIPT=./delete_script_`date +"%Y%m%d_%T"`.sh
-echo '#!/bin/bash' > $DELETE_SCRIPT
-chmod +x $DELETE_SCRIPT
 
 #Default configuration file
 CONFIG_FILE=~/.dropbox_uploader
@@ -42,6 +39,13 @@ QUIET=0
 SHOW_PROGRESSBAR=0
 SKIP_EXISTING_FILES=0
 ERROR_STATUS=0
+LOCAL_DELETE=0
+
+
+DELETE_SCRIPT=$TMP_DIR/delete_script_$RANDOM_`date +"%Y%m%d_%T"`.sh
+echo '#!/bin/bash' > $DELETE_SCRIPT
+chmod +x $DELETE_SCRIPT
+
 
 #Don't edit these...
 API_REQUEST_TOKEN_URL="https://api.dropbox.com/1/oauth/request_token"
@@ -77,11 +81,16 @@ shopt -s nullglob #Bash allows filename patterns which match no files to expand 
 shopt -s dotglob  #Bash includes filenames beginning with a "." in the results of filename expansion
 
 #Look for optional config file parameter
-while getopts ":qpskdf:" opt; do
+while getopts ":qpsxkdf:" opt; do
     case $opt in
 
     f)
       CONFIG_FILE=$OPTARG
+    ;;
+    
+    x)
+      LOCAL_DELETE=1
+      echo LOCAL DELETION ENABLED
     ;;
 
     d)
@@ -102,6 +111,7 @@ while getopts ":qpskdf:" opt; do
 
     s)
       SKIP_EXISTING_FILES=1
+      echo SKIP EXISTING FILES ENABLED
     ;;
 
     \?)
@@ -184,6 +194,7 @@ function remove_temp_files
         rm -fr "$RESPONSE_FILE"
         rm -fr "$CHUNK_FILE"
         rm -fr "$TEMP_FILE"
+        rm -fr "$DELETE_SCRIPT"
     fi
 }
 
@@ -1319,5 +1330,13 @@ case $COMMAND in
 
 esac
 
+
+if [[ $LOCAL_DELETE -eq 1 ]]; then
+	echo RUNNING LOCAL FILE DELETION!
+	$DELETE_SCRIPT
+	rmdir 20??_??_??
+fi
+
 remove_temp_files
+
 exit $ERROR_STATUS

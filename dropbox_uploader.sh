@@ -44,6 +44,7 @@ LOCAL_DELETE=0
 
 DELETE_SCRIPT=$TMP_DIR/delete_script_$RANDOM_`date +"%Y%m%d_%T"`.sh
 echo '#!/bin/bash' > $DELETE_SCRIPT
+echo 'cd /cygdrive/c/Users/crg/Pictures' >> $DELETE_SCRIPT
 chmod +x $DELETE_SCRIPT
 
 
@@ -485,7 +486,7 @@ function db_upload_file
     TYPE=$(db_stat "$FILE_DST")
     if [[ $TYPE != "ERR" && $SKIP_EXISTING_FILES == 1 ]]; then
         print " > Skipping already existing file \"$FILE_DST\"\n"
-	echo rm "$FILE_SRC" >> $DELETE_SCRIPT 
+	echo rm \"$FILE_SRC\" >> $DELETE_SCRIPT 
         return
     fi
 
@@ -521,7 +522,7 @@ function db_simple_upload_file
     #Check
     if grep -q "^HTTP/1.1 200 OK" "$RESPONSE_FILE"; then
         print "DONE\n"
-	echo rm "$FILE_SRC" >> $DELETE_SCRIPT 
+	echo rm \"$FILE_SRC\" >> $DELETE_SCRIPT 
     else
         print "FAILED\n"
         print "An error occurred requesting /upload\n"
@@ -614,7 +615,7 @@ function db_chunked_upload_file
     print " DONE\n"
     
     if [[ $UPLOAD_ERROR -eq 0 ]]; then
-	echo rm "$FILE_SRC" >> $DELETE_SCRIPT
+	echo rm \"$FILE_SRC\" >> $DELETE_SCRIPT
     fi
 }
 

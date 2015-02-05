@@ -54,12 +54,10 @@ SKIP_EXISTING_FILES=0
 ERROR_STATUS=0
 LOCAL_DELETE=0
 
-
 DELETE_SCRIPT=$TMP_DIR/delete_script_$RANDOM_`date +"%Y%m%d_%T"`.sh
 echo '#!/bin/bash' > $DELETE_SCRIPT
 echo 'cd /cygdrive/c/Users/crg/Pictures' >> $DELETE_SCRIPT
 chmod +x $DELETE_SCRIPT
-
 
 #Don't edit these...
 API_REQUEST_TOKEN_URL="https://api.dropbox.com/1/oauth/request_token"

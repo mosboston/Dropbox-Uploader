@@ -19,7 +19,6 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #
 
-
 #Default configuration file
 CONFIG_FILE=~/.dropbox_uploader
 
@@ -32,8 +31,22 @@ CHUNK_SIZE=4
 #If not set, curl will be searched into the $PATH
 #CURL_BIN="/usr/bin/curl"
 
+# Get script path
+# Following function taken from: http://stackoverflow.com/a/179231/940931
+function getScriptPath {
+	pushd . > /dev/null
+	SCRIPT_PATH="${BASH_SOURCE[0]}";
+	if ([ -h "${SCRIPT_PATH}" ]) then
+	  while([ -h "${SCRIPT_PATH}" ]) do cd `dirname "$SCRIPT_PATH"`; SCRIPT_PATH=`readlink "${SCRIPT_PATH}"`; done
+	fi
+	cd `dirname ${SCRIPT_PATH}` > /dev/null
+	SCRIPT_PATH=`pwd`;
+	popd  > /dev/null
+}
+getScriptPath
+
 #Default values
-TMP_DIR="/cygdrive/c/Users/crg/Desktop/Dropbox-Uploader/tmp"
+TMP_DIR="$SCRIPT_PATH/tmp"
 DEBUG=0
 QUIET=0
 SHOW_PROGRESSBAR=0
@@ -69,6 +82,7 @@ CHUNK_FILE="$TMP_DIR/du_chunk_$RANDOM"
 TEMP_FILE="$TMP_DIR/du_tmp_$RANDOM"
 BIN_DEPS="sed basename date grep stat dd mkdir"
 VERSION="0.14"
+
 
 umask 077
 
@@ -1340,3 +1354,4 @@ fi
 remove_temp_files
 
 exit $ERROR_STATUS
+

@@ -91,7 +91,7 @@ while getopts ":qpsxkdf:" opt; do
     
     x)
       LOCAL_DELETE=1
-      echo LOCAL DELETION ENABLED
+      echo WARNING: LOCAL DELETION ENABLED
     ;;
 
     d)
@@ -112,7 +112,6 @@ while getopts ":qpsxkdf:" opt; do
 
     s)
       SKIP_EXISTING_FILES=1
-      echo SKIP EXISTING FILES ENABLED
     ;;
 
     \?)

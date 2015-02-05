@@ -15,3 +15,8 @@ do
  dropbox_uploader.sh -s download "Charles River Gallery/$1/$line" $1/$line
 done
 
+cd $1
+/home/ksimmons/crgcam/find_gaps.sh $1
+
+/home/ksimmons/crgcam/make_vid.sh
+ 
